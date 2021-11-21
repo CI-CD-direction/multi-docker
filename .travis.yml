@@ -1,26 +1,24 @@
+sudo: required
 language: generic
 
-sudo: required
 services:
   - docker
 
 before_install:
-  - docker build -t vpanki/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t stephengrider/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true vpanki/react-test npm test
+  - docker run -e CI=true stephengrider/react-test npm test
 
 after_success:
-  - dcoker build -t vpanki/multi-client ./client
-  - dcoker build -t vpanki/multi-nginx ./nginx
-  - dcoker build -t vpanki/multi-server ./server
-  - dcoker build -t vpanki/multi-worker ./worker
-
-# Log in Docker CLI #
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-
-# Push images to Docker hub #
-- docker push vpanki/multi-client
-- docker push vpanki/multi-nginx
-- docker push vpanki/multi-server
-- docker push vpanki/multi-worker
+  - docker build -t stephengrider/multi-client ./client
+  - docker build -t stephengrider/multi-nginx ./nginx
+  - docker build -t stephengrider/multi-server ./server
+  - docker build -t stephengrider/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push stephengrider/multi-client
+  - docker push stephengrider/multi-nginx
+  - docker push stephengrider/multi-server
+  - docker push stephengrider/multi-worker
