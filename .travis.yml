@@ -19,7 +19,7 @@ after_success:
 # Log in Docker CLI #
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-# Push images #
+# Push images to Docker hub #
 - docker push vpanki/multi-client
 - docker push vpanki/multi-nginx
 - docker push vpanki/multi-server
